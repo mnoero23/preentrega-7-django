@@ -1,56 +1,38 @@
-# Blog Project · Pre-entrega 7
+# Bitácora de Datos · Pre-entrega 8
 
-Base inicial de un blog web desarrollado con Django para el curso de Python de Coderhouse. En este checkpoint se configura el proyecto `blog_project` y la aplicación principal `posts`. Los modelos, vistas, templates y funcionalidades del blog se incorporarán en las próximas entregas.
+Primera versión visual de un blog desarrollado con Django para el curso de Python de Coderhouse. Implementa el flujo **URL → view → template → archivo estático** y continúa sobre la base de la Pre-entrega 7.
 
-## Requisitos
+## Funcionalidades
 
-- Python 3.10 o superior.
-- Git.
+- Página de inicio con bienvenida y presentación del proyecto.
+- Página «Acerca de» con reseña del autor y propósito del sitio.
+- Navegación mediante rutas con nombre.
+- Layout reutilizable con herencia de templates.
+- Diseño responsive mediante CSS servido desde `static/`.
+- Pruebas automáticas de rutas, templates, navegación y CSS.
 
-## Clonar el repositorio
+## Instalación
 
 ```powershell
 git clone https://github.com/mnoero23/preentrega-7-django.git
 cd preentrega-7-django
-```
-
-## Crear y activar el entorno virtual
-
-En Windows PowerShell:
-
-```powershell
 python -m venv venv
 venv\Scripts\Activate.ps1
-```
-
-En Linux o macOS:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-## Instalar las dependencias
-
-```powershell
 python -m pip install -r requirements.txt
 ```
 
-## Verificar la configuración
+En Linux o macOS, activar el entorno con `source venv/bin/activate`.
+
+## Verificación y ejecución
 
 ```powershell
 python manage.py check
-```
-
-El resultado esperado es `System check identified no issues`.
-
-## Ejecutar el servidor
-
-```powershell
+python manage.py test -v 2
+python manage.py migrate
 python manage.py runserver
 ```
 
-Abrir [http://127.0.0.1:8000/](http://127.0.0.1:8000/) en el navegador. Para detener el servidor, presionar `Ctrl+C`.
+Abrir [http://127.0.0.1:8000/](http://127.0.0.1:8000/) y comprobar la navegación hacia [http://127.0.0.1:8000/acerca/](http://127.0.0.1:8000/acerca/).
 
 ## Estructura principal
 
@@ -59,33 +41,31 @@ preentrega-7-django/
 ├── manage.py
 ├── requirements.txt
 ├── README.md
-├── .gitignore
 ├── blog_project/
-│   ├── __init__.py
 │   ├── settings.py
-│   ├── urls.py
-│   ├── asgi.py
-│   └── wsgi.py
+│   └── urls.py
 └── posts/
-    ├── migrations/
-    ├── __init__.py
-    ├── admin.py
-    ├── apps.py
-    ├── models.py
+    ├── static/posts/css/
+    │   └── estilos.css
+    ├── templates/posts/
+    │   ├── base.html
+    │   ├── inicio.html
+    │   └── acerca.html
     ├── tests.py
+    ├── urls.py
     └── views.py
 ```
 
-## Configuración aplicada
+## Cómo funciona
 
-- Proyecto Django: `blog_project`.
-- Aplicación principal: `posts`.
-- Registro en `INSTALLED_APPS`: `posts.apps.PostsConfig`.
-- Idioma: español de Argentina (`es-ar`).
-- Zona horaria: `America/Argentina/Buenos_Aires`.
-- Base de datos local `db.sqlite3` excluida de Git.
-- Entornos virtuales y variables privadas excluidos mediante `.gitignore`.
+1. `blog_project/urls.py` delega las rutas a `posts/urls.py` mediante `include()`.
+2. Las funciones `inicio` y `acerca` renderizan sus respectivos templates.
+3. Los templates hijos extienden `base.html`, que reúne estructura y navegación.
+4. `base.html` carga `posts/css/estilos.css` mediante `{% load static %}`.
 
-## Alcance del checkpoint
+## Configuración
 
-Esta entrega prepara únicamente la base técnica. Todavía no incluye modelos propios, vistas, templates, formularios, rutas de `posts`, CRUD, autenticación, estilos personalizados ni carga de imágenes.
+- Django 5.2.12.
+- App `posts.apps.PostsConfig`.
+- Idioma `es-ar` y zona horaria `America/Argentina/Buenos_Aires`.
+- `venv/`, `db.sqlite3` y variables privadas excluidos mediante `.gitignore`.

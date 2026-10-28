@@ -1,0 +1,20 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}Inicio · Bitácora de Datos{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <p class="etiqueta">Python · Django · Datos</p>
+    <h1>Ideas que se convierten en proyectos</h1>
+    <p class="introduccion">Bienvenido a Bitácora de Datos, un espacio para compartir aprendizajes, experiencias y pequeños desarrollos creados durante mi formación en Python.</p>
+    <a class="boton" href="{% url 'posts:acerca' %}">Conocer el proyecto</a>
+</section>
+<section class="seccion">
+    <div class="titulo-seccion"><p class="etiqueta">El recorrido</p><h2>Del código de consola a la web</h2></div>
+    <div class="grilla">
+        <article class="tarjeta"><span>01</span><h3>Python</h3><p>Fundamentos, estructuras de datos y programación orientada a objetos.</p></article>
+        <article class="tarjeta"><span>02</span><h3>Django</h3><p>Rutas, vistas y templates conectados en una aplicación web organizada.</p></article>
+        <article class="tarjeta"><span>03</span><h3>Próximos pasos</h3><p>Modelos, formularios, usuarios y contenido dinámico para hacer crecer el blog.</p></article>
+    </div>
+</section>
+{% endblock %}

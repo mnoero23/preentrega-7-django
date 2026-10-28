@@ -1,21 +1,27 @@
-# Evidencia de verificación
+# Pruebas · Pre-entrega 8
 
-Se realizaron los siguientes controles:
+## Comandos ejecutados
 
 ```powershell
 python manage.py check
-python manage.py test
+python manage.py test -v 2
 ```
 
-También se verificó que:
+## Resultado
 
-- `manage.py` esté en la raíz.
-- `blog_project/settings.py` exista.
-- la app `posts` esté creada y registrada como `posts.apps.PostsConfig`;
-- el idioma sea `es-ar`;
-- la zona horaria sea `America/Argentina/Buenos_Aires`;
-- `.gitignore` excluya `venv/`, `.env` y `db.sqlite3`;
-- `requirements.txt` incluya Django;
-- el servidor de desarrollo responda correctamente.
+- `System check identified no issues`.
+- 8 pruebas ejecutadas correctamente.
+- Inicio responde `200` y utiliza `posts/inicio.html`.
+- Acerca de responde `200` y utiliza `posts/acerca.html`.
+- La navegación está presente en las dos páginas.
+- Django localiza `posts/css/estilos.css`.
+- El HTML enlaza correctamente el archivo CSS.
+- Se conservan las 3 verificaciones de configuración de la Pre-entrega 7.
 
-Las tres pruebas automatizadas incluidas comprueban el registro de la app, el idioma y la zona horaria.
+## Prueba manual sugerida
+
+1. Ejecutar `python manage.py runserver`.
+2. Abrir `http://127.0.0.1:8000/`.
+3. Verificar que el diseño tenga colores, tarjetas y tipografía aplicada.
+4. Navegar a «Acerca de» y volver a «Inicio».
+5. Confirmar que `estilos.css` responde con estado `200`.

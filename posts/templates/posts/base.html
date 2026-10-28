@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog de aprendizaje sobre Python, Django y análisis de datos.">
+    <title>{% block title %}Bitácora de Datos{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'posts/css/estilos.css' %}">
+</head>
+<body>
+    <header class="encabezado">
+        <nav class="navegacion contenedor" aria-label="Navegación principal">
+            <a class="marca" href="{% url 'posts:inicio' %}">Bitácora de Datos</a>
+            <div class="enlaces">
+                <a href="{% url 'posts:inicio' %}">Inicio</a>
+                <a href="{% url 'posts:acerca' %}">Acerca de</a>
+            </div>
+        </nav>
+    </header>
+    <main class="contenedor contenido-principal">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="pie">
+        <div class="contenedor"><p>Proyecto del curso de Python · Coderhouse</p></div>
+    </footer>
+</body>
+</html>
