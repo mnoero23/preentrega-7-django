@@ -1,4 +1,4 @@
-# Pasos para entregar la Pre-entrega 8
+# Pasos para entregar la Pre-entrega 9
 
 ## 1. Actualizar la copia local
 
@@ -18,10 +18,12 @@ python -m pip install -r requirements.txt
 ```powershell
 python manage.py check
 python manage.py test -v 2
+python manage.py migrate
+python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Comprobar `http://127.0.0.1:8000/` y `http://127.0.0.1:8000/acerca/`.
+Crear al menos tres publicaciones desde `http://127.0.0.1:8000/admin/` y comprobar que los posts publicados aparezcan en `http://127.0.0.1:8000/posts/`.
 
 ## 4. Confirmar Git
 
@@ -29,6 +31,8 @@ Comprobar `http://127.0.0.1:8000/` y `http://127.0.0.1:8000/acerca/`.
 git status
 git log --oneline -3
 ```
+
+El commit solicitado es `Checkpoint: Modelos y Admin configurados`.
 
 ## 5. Entregar
 

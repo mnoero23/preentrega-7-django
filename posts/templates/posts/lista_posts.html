@@ -1,0 +1,26 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}Publicaciones · Bitácora de Datos{% endblock %}
+
+{% block content %}
+<section class="pagina-interna listado-posts">
+    <p class="etiqueta">Contenido dinámico</p>
+    <h1>Publicaciones</h1>
+    <p class="introduccion">Artículos publicados y administrados desde el panel de Django.</p>
+
+    <div class="lista-publicaciones">
+        {% for post in posts %}
+        <article class="publicacion">
+            <p class="meta">{{ post.autor }} · {{ post.fecha_creacion|date:"d/m/Y H:i" }}</p>
+            <h2>{{ post.titulo }}</h2>
+            <div class="contenido-post">{{ post.contenido|linebreaks }}</div>
+        </article>
+        {% empty %}
+        <div class="estado-vacio">
+            <h2>Todavía no hay publicaciones</h2>
+            <p>Cuando se publique un post desde el panel administrativo aparecerá aquí.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

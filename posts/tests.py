@@ -1,8 +1,10 @@
 from django.apps import apps
 from django.conf import settings
 from django.contrib.staticfiles import finders
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
+
+from .models import Post
 
 
 class ConfiguracionInicialTest(SimpleTestCase):
@@ -38,6 +40,7 @@ class SitioWebTest(SimpleTestCase):
             with self.subTest(url=nombre_url):
                 respuesta = self.client.get(reverse(nombre_url))
                 self.assertContains(respuesta, reverse("posts:inicio"))
+                self.assertContains(respuesta, reverse("posts:lista_posts"))
                 self.assertContains(respuesta, reverse("posts:acerca"))
 
     def test_css_se_encuentra_en_static(self):
@@ -46,3 +49,57 @@ class SitioWebTest(SimpleTestCase):
     def test_css_esta_vinculado_en_el_html(self):
         respuesta = self.client.get(reverse("posts:inicio"))
         self.assertContains(respuesta, "/static/posts/css/estilos.css")
+
+
+class PostModelTest(TestCase):
+    """Comprueba el modelo y el listado dinámico de la Pre-entrega 9."""
+
+    def test_post_tiene_valores_y_representacion_esperados(self):
+        post = Post.objects.create(
+            titulo="Mi primer post",
+            contenido="Contenido de prueba",
+            autor="Matías",
+        )
+        self.assertEqual(post.estado, Post.BORRADOR)
+        self.assertEqual(str(post), "Mi primer post")
+
+    def test_listado_muestra_solo_posts_publicados(self):
+        publicado = Post.objects.create(
+            titulo="Post visible",
+            contenido="Se debe mostrar",
+            autor="Matías",
+            estado=Post.PUBLICADO,
+        )
+        borrador = Post.objects.create(
+            titulo="Post oculto",
+            contenido="No se debe mostrar",
+            autor="Matías",
+        )
+
+        respuesta = self.client.get(reverse("posts:lista_posts"))
+
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertTemplateUsed(respuesta, "posts/lista_posts.html")
+        self.assertContains(respuesta, publicado.titulo)
+        self.assertNotContains(respuesta, borrador.titulo)
+
+    def test_listado_respeta_orden_descendente(self):
+        antiguo = Post.objects.create(
+            titulo="Post antiguo",
+            contenido="Primero creado",
+            autor="Matías",
+            estado=Post.PUBLICADO,
+        )
+        reciente = Post.objects.create(
+            titulo="Post reciente",
+            contenido="Último creado",
+            autor="Matías",
+            estado=Post.PUBLICADO,
+        )
+
+        respuesta = self.client.get(reverse("posts:lista_posts"))
+
+        self.assertQuerySetEqual(
+            respuesta.context["posts"],
+            [reciente, antiguo],
+        )
