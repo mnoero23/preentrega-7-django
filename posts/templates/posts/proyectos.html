@@ -1,0 +1,9 @@
+{% extends 'posts/base.html' %}
+{% block title %}Proyectos · Matías Noero{% endblock %}
+{% block content %}
+<section class="pagina-interna">
+    <p class="etiqueta">Portfolio MN8</p><h1>Proyectos con propósito</h1>
+    <p class="introduccion">Cada proyecto parte de una necesidad concreta y combina comprensión del negocio, estructura de datos y una experiencia simple para el usuario.</p>
+    <div class="grilla grilla-proyectos">{% for proyecto in proyectos %}<article class="tarjeta proyecto"><p class="meta">{{ proyecto.categoria }}</p><h2>{{ proyecto.nombre }}</h2><p>{{ proyecto.descripcion }}</p><small>{{ proyecto.tecnologias }}</small></article>{% endfor %}</div>
+</section>
+{% endblock %}

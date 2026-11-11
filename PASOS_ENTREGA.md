@@ -1,15 +1,28 @@
-# Pasos para entregar la Pre-entrega 9
+# Pasos para revisar y entregar la Pre-entrega 10
 
 ## 1. Actualizar la copia local
 
 ```powershell
+cd "C:\Users\matias\OneDrive\PERSONAL\01. CURSOS\02 - CODERHOUSE\2026 - Python\Modulo 6 - Git GitHub e introduccion a Django\07 - Preentrega 7"
 git pull origin main
 ```
 
 ## 2. Preparar el entorno
 
 ```powershell
-venv\Scripts\Activate.ps1
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python manage.py migrate
+```
+
+Si el entorno virtual fue creado con otra instalación de Python y no funciona, recrearlo:
+
+```powershell
+deactivate
+Rename-Item venv venv_anterior
+python -m venv venv
+.\venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 ```
 
@@ -18,22 +31,20 @@ python -m pip install -r requirements.txt
 ```powershell
 python manage.py check
 python manage.py test -v 2
-python manage.py migrate
-python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Crear al menos tres publicaciones desde `http://127.0.0.1:8000/admin/` y comprobar que los posts publicados aparezcan en `http://127.0.0.1:8000/posts/`.
+Abrir `http://127.0.0.1:8000/` y seguir la prueba manual de `PRUEBAS.md`.
 
-## 4. Confirmar Git
+## 4. Confirmar los cambios de Git
 
 ```powershell
 git status
 git log --oneline -3
 ```
 
-El commit solicitado es `Checkpoint: Modelos y Admin configurados`.
-
 ## 5. Entregar
 
-Pegar en Coderhouse la URL pública `https://github.com/mnoero23/preentrega-7-django`.
+Cuando la revisión visual esté aprobada y los cambios estén publicados, pegar en Coderhouse:
+
+`https://github.com/mnoero23/preentrega-7-django`

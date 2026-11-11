@@ -1,0 +1,13 @@
+{% extends 'posts/base.html' %}
+{% block title %}{{ modo }} artículo · Matías Noero{% endblock %}
+{% block content %}
+<section class="pagina-interna formulario-pagina">
+    <p class="etiqueta">Gestión de contenido</p><h1>{{ modo }} artículo</h1>
+    <p class="introduccion">Completá los campos. La imagen es opcional y se guardará en la carpeta media del proyecto.</p>
+    <form method="post" enctype="multipart/form-data" class="formulario-post">
+        {% csrf_token %}
+        {% for field in form %}<div class="campo"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{% for error in field.errors %}<p class="error">{{ error }}</p>{% endfor %}</div>{% endfor %}
+        <div class="acciones"><button class="boton" type="submit">Guardar artículo</button>{% if post %}<a class="boton boton-secundario" href="{% url 'posts:detalle_post' post.pk %}">Cancelar</a>{% else %}<a class="boton boton-secundario" href="{% url 'posts:lista_posts' %}">Cancelar</a>{% endif %}</div>
+    </form>
+</section>
+{% endblock %}
