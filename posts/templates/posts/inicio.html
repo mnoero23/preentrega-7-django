@@ -1,20 +1,37 @@
 {% extends 'posts/base.html' %}
 
-{% block title %}Inicio · Bitácora de Datos{% endblock %}
+{% block title %}Matías Noero · Gestión, datos y tecnología{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <p class="etiqueta">Python · Django · Datos</p>
-    <h1>Ideas que se convierten en proyectos</h1>
-    <p class="introduccion">Bienvenido a Bitácora de Datos, un espacio para compartir aprendizajes, experiencias y pequeños desarrollos creados durante mi formación en Python.</p>
-    <a class="boton" href="{% url 'posts:acerca' %}">Conocer el proyecto</a>
+<section class="hero hero-profesional">
+    <div>
+        <p class="etiqueta">Administración · Datos · Tecnología</p>
+        <h1>Convierto información y procesos en decisiones y productos.</h1>
+        <p class="introduccion">Soy Matías Noero. Combino experiencia en gestión, finanzas y operaciones con análisis de datos, Python y desarrollo web para resolver problemas reales.</p>
+        <div class="acciones"><a class="boton" href="{% url 'posts:proyectos' %}">Ver proyectos</a><a class="boton boton-secundario" href="{% url 'posts:lista_posts' %}">Leer artículos</a></div>
+    </div>
+    <aside class="ficha-profesional"><p class="monograma">MN</p><p>Lic. en Administración</p><strong>Analista de datos y creador de productos digitales</strong><small>Córdoba, Argentina · Disponible para proyectos remotos</small></aside>
 </section>
 <section class="seccion">
-    <div class="titulo-seccion"><p class="etiqueta">El recorrido</p><h2>Del código de consola a la web</h2></div>
+    <div class="titulo-seccion"><p class="etiqueta">Lo que hago</p><h2>Experiencia de negocio con capacidad técnica</h2></div>
     <div class="grilla">
-        <article class="tarjeta"><span>01</span><h3>Python</h3><p>Fundamentos, estructuras de datos y programación orientada a objetos.</p></article>
-        <article class="tarjeta"><span>02</span><h3>Django</h3><p>Rutas, vistas y templates conectados en una aplicación web organizada.</p></article>
-        <article class="tarjeta"><span>03</span><h3>Próximos pasos</h3><p>Modelos, formularios, usuarios y contenido dinámico para hacer crecer el blog.</p></article>
+        <article class="tarjeta"><span>01</span><h3>Control de gestión</h3><p>Finanzas, contratos, procesos y tableros para transformar datos operativos en decisiones.</p></article>
+        <article class="tarjeta"><span>02</span><h3>Análisis de datos</h3><p>Excel, Power BI, SQL y Python aplicados a problemas concretos de organizaciones y personas.</p></article>
+        <article class="tarjeta"><span>03</span><h3>Productos digitales</h3><p>Aplicaciones centradas en el usuario, desde la idea y el modelo de datos hasta una experiencia funcional.</p></article>
     </div>
 </section>
+<section class="seccion seccion-proyectos">
+    <div class="titulo-seccion"><p class="etiqueta">Proyectos seleccionados</p><h2>Construcciones que muestran el proceso</h2></div>
+    <div class="grilla">
+        {% for proyecto in proyectos %}<article class="tarjeta proyecto"><p class="meta">{{ proyecto.categoria }}</p><h3>{{ proyecto.nombre }}</h3><p>{{ proyecto.descripcion }}</p><small>{{ proyecto.tecnologias }}</small></article>{% endfor %}
+    </div>
+</section>
+{% if destacados %}
+<section class="seccion">
+    <div class="titulo-seccion"><p class="etiqueta">Ideas y aprendizajes</p><h2>Artículos recientes</h2></div>
+    <div class="grilla">
+        {% for post in destacados %}<article class="tarjeta articulo-resumen">{% if post.imagen %}<img src="{{ post.imagen.url }}" alt="Imagen de {{ post.titulo }}">{% endif %}<p class="meta">{{ post.fecha_creacion|date:"d/m/Y" }}</p><h3>{{ post.titulo }}</h3><p>{{ post.contenido|truncatewords:24 }}</p><a class="enlace-texto" href="{% url 'posts:detalle_post' post.pk %}">Leer artículo →</a></article>{% endfor %}
+    </div>
+</section>
+{% endif %}
 {% endblock %}

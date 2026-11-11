@@ -1,24 +1,26 @@
 {% extends 'posts/base.html' %}
 
-{% block title %}Publicaciones · Bitácora de Datos{% endblock %}
+{% block title %}Artículos · Matías Noero{% endblock %}
 
 {% block content %}
 <section class="pagina-interna listado-posts">
     <p class="etiqueta">Contenido dinámico</p>
-    <h1>Publicaciones</h1>
-    <p class="introduccion">Artículos publicados y administrados desde el panel de Django.</p>
+    <div class="cabecera-pagina"><div><h1>Artículos</h1><p class="introduccion">Ideas sobre gestión, datos, tecnología y el proceso real de construir productos.</p></div><a class="boton" href="{% url 'posts:crear_post' %}">Nuevo artículo</a></div>
 
     <div class="lista-publicaciones">
         {% for post in posts %}
         <article class="publicacion">
+            {% if post.imagen %}<img class="miniatura-post" src="{{ post.imagen.url }}" alt="Imagen de {{ post.titulo }}">{% endif %}
             <p class="meta">{{ post.autor }} · {{ post.fecha_creacion|date:"d/m/Y H:i" }}</p>
             <h2>{{ post.titulo }}</h2>
-            <div class="contenido-post">{{ post.contenido|linebreaks }}</div>
+            <div class="contenido-post">{{ post.contenido|truncatewords:35 }}</div>
+            <a class="enlace-texto" href="{% url 'posts:detalle_post' post.pk %}">Leer artículo →</a>
         </article>
         {% empty %}
         <div class="estado-vacio">
             <h2>Todavía no hay publicaciones</h2>
-            <p>Cuando se publique un post desde el panel administrativo aparecerá aquí.</p>
+            <p>Creá el primer artículo desde el sitio y marcá su estado como publicado.</p>
+            <a class="boton" href="{% url 'posts:crear_post' %}">Crear artículo</a>
         </div>
         {% endfor %}
     </div>

@@ -4,26 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blog de aprendizaje sobre Python, Django y análisis de datos.">
-    <title>{% block title %}Bitácora de Datos{% endblock %}</title>
+    <meta name="description" content="Sitio profesional de Matías Noero: gestión, datos, Python, Django y productos digitales.">
+    <title>{% block title %}Matías Noero · Gestión, datos y tecnología{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'posts/css/estilos.css' %}">
 </head>
 <body>
     <header class="encabezado">
         <nav class="navegacion contenedor" aria-label="Navegación principal">
-            <a class="marca" href="{% url 'posts:inicio' %}">Bitácora de Datos</a>
+            <a class="marca" href="{% url 'posts:inicio' %}"><span>MN</span> Matías Noero</a>
             <div class="enlaces">
                 <a href="{% url 'posts:inicio' %}">Inicio</a>
-                <a href="{% url 'posts:lista_posts' %}">Publicaciones</a>
-                <a href="{% url 'posts:acerca' %}">Acerca de</a>
+                <a href="{% url 'posts:lista_posts' %}">Artículos</a>
+                <a href="{% url 'posts:proyectos' %}">Proyectos</a>
+                <a href="{% url 'posts:acerca' %}">Perfil</a>
             </div>
         </nav>
     </header>
+    {% if messages %}
+    <div class="contenedor mensajes" aria-live="polite">
+        {% for message in messages %}<p class="mensaje">{{ message }}</p>{% endfor %}
+    </div>
+    {% endif %}
     <main class="contenedor contenido-principal">
         {% block content %}{% endblock %}
     </main>
     <footer class="pie">
-        <div class="contenedor"><p>Proyecto del curso de Python · Coderhouse</p></div>
+        <div class="contenedor pie-contenido"><p>Matías Noero · Gestión, datos y productos digitales</p><p>Desarrollado con Python y Django</p></div>
     </footer>
 </body>
 </html>
