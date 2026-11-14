@@ -31,8 +31,8 @@ Las versiones utilizadas están declaradas en `requirements.txt`.
 Clonar el repositorio y entrar al proyecto:
 
 ```powershell
-git clone https://github.com/mnoero23/preentrega-7-django.git
-cd preentrega-7-django
+git clone https://github.com/mnoero23/mn8-portfolio-django.git
+cd mn8-portfolio-django
 ```
 
 Crear y activar un entorno virtual nuevo:
