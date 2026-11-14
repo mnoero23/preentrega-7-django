@@ -189,3 +189,43 @@ class PostCrudTest(TestCase):
     def test_formulario_html_usa_multipart(self):
         respuesta = self.client.get(reverse("posts:crear_post"))
         self.assertContains(respuesta, 'enctype="multipart/form-data"')
+
+
+    def test_crear_post_muestra_mensaje_de_exito(self):
+        respuesta = self.client.post(
+            reverse("posts:crear_post"),
+            {
+                "titulo": "Artículo nuevo",
+                "contenido": "Contenido del artículo.",
+                "autor": "Matías Noero",
+                "estado": Post.PUBLICADO,
+            },
+            follow=True,
+        )
+
+        self.assertContains(respuesta, "La publicación se creó correctamente.")
+        self.assertEqual(respuesta.resolver_match.url_name, "detalle_post")
+
+    def test_editar_post_muestra_mensaje_de_exito(self):
+        respuesta = self.client.post(
+            reverse("posts:editar_post", args=[self.post.pk]),
+            {
+                "titulo": "Artículo actualizado",
+                "contenido": self.post.contenido,
+                "autor": self.post.autor,
+                "estado": Post.PUBLICADO,
+            },
+            follow=True,
+        )
+
+        self.assertContains(respuesta, "La publicación se actualizó correctamente.")
+        self.assertEqual(respuesta.resolver_match.url_name, "detalle_post")
+
+    def test_eliminar_post_muestra_mensaje_de_exito(self):
+        respuesta = self.client.post(
+            reverse("posts:eliminar_post", args=[self.post.pk]),
+            follow=True,
+        )
+
+        self.assertContains(respuesta, "La publicación se eliminó correctamente.")
+        self.assertEqual(respuesta.resolver_match.url_name, "lista_posts")
