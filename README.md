@@ -1,32 +1,58 @@
-# Matías Noero · Sitio profesional con Django
+# Matías Noero · Portfolio profesional con Python y Django
 
-Evolución del blog del curso de Python de Coderhouse. La **Pre-entrega 10** incorpora un CRUD completo de artículos con imágenes y convierte el proyecto en un pequeño sitio profesional: presentación, artículos, proyectos y demostración concreta de conocimientos en Python y Django.
+Sitio profesional de **Matías Noero** para presentar experiencia, proyectos y artículos, y demostrar de manera concreta conocimientos de Python y Django.
 
-El contenido está pensado para poder reutilizar aprendizajes y casos posteriormente en LinkedIn, GitHub y el portfolio de **MN8**.
+El proyecto nació como blog académico del curso de Python de Coderhouse y evoluciona como una base reutilizable para contenidos de LinkedIn, GitHub y el portfolio de **MN8**.
 
 ## Funcionalidades
 
-- Portada profesional de Matías Noero.
-- Sección de proyectos con ALQIVO, Faro Finanzas y Bitácora de Datos.
-- Página de perfil profesional.
+- Portada y perfil profesional de Matías Noero.
+- Sección de proyectos: ALQIVO, Faro Finanzas y Bitácora de Datos.
 - Artículos persistidos en SQLite mediante el modelo `Post`.
-- CRUD desde la interfaz: listar, ver, crear, editar y eliminar.
+- CRUD completo: listar, ver, crear, editar y eliminar.
 - Confirmación previa al borrado.
+- Mensajes de éxito después de crear, editar o eliminar.
 - Imágenes opcionales mediante `ImageField` y Pillow.
 - Formularios basados en `ModelForm`.
-- Mensajes de confirmación después de crear, editar o eliminar.
 - Diseño responsive con templates heredados y CSS propio.
-- Panel de administración y pruebas automáticas.
+- Panel de administración.
+- Pruebas automatizadas.
 
-## Instalación en Windows
+## Requisitos
+
+- Python 3.12 o superior.
+- Django 5.2.12.
+- Pillow 12.0.0.
+
+Las versiones utilizadas están declaradas en `requirements.txt`.
+
+## Instalación limpia en Windows
+
+Clonar el repositorio y entrar al proyecto:
 
 ```powershell
 git clone https://github.com/mnoero23/preentrega-7-django.git
 cd preentrega-7-django
-python -m venv venv
+```
+
+Crear y activar un entorno virtual nuevo:
+
+```powershell
+py -m venv venv
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\venv\Scripts\Activate.ps1
+```
+
+Instalar todas las dependencias, incluida Pillow:
+
+```powershell
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+```
+
+Aplicar las migraciones es un paso obligatorio antes de ejecutar el sitio:
+
+```powershell
 python manage.py migrate
 ```
 
@@ -34,11 +60,14 @@ python manage.py migrate
 
 ```powershell
 python manage.py check
+python manage.py makemigrations --check --dry-run
 python manage.py test -v 2
 python manage.py runserver
 ```
 
 Abrir [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+
+El resultado esperado de `check` es `System check identified no issues`. La comprobación de migraciones debe indicar `No changes detected` y todos los tests deben finalizar con `OK`.
 
 ## Rutas principales
 
@@ -54,18 +83,32 @@ Abrir [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 | `/acerca/` | Perfil profesional |
 | `/admin/` | Administración de Django |
 
+## Flujo del CRUD
+
+- **Crear:** guarda el artículo y redirige a su detalle con un mensaje de éxito.
+- **Leer:** permite listar artículos publicados y abrir su detalle.
+- **Editar:** actualiza contenido e imagen y vuelve al detalle con confirmación.
+- **Eliminar:** exige una pantalla de confirmación y redirige al listado con un mensaje de éxito.
+
 ## Manejo de imágenes
 
 1. `Post.imagen` utiliza `ImageField(upload_to="posts/", null=True, blank=True)`.
 2. Pillow está incluido en `requirements.txt`.
 3. `MEDIA_ROOT` apunta a `media/` y `MEDIA_URL` a `/media/`.
-4. El archivo principal de URLs sirve media cuando `DEBUG=True`.
+4. El archivo principal de URLs sirve media solamente cuando `DEBUG=True`.
 5. `PostForm` incluye el campo `imagen`.
-6. Las vistas reciben `request.FILES` al crear y editar.
+6. Las vistas procesan `request.FILES` tanto al crear como al editar.
 7. El formulario HTML usa `enctype="multipart/form-data"`.
-8. Los templates comprueban `{% if post.imagen %}` antes de acceder a su URL.
+8. Los templates verifican `{% if post.imagen %}` antes de acceder a la URL.
 
-Para probarlo, crear un artículo desde `/posts/crear/`, seleccionar una imagen JPG o PNG, marcar el estado **Publicado** y guardar. La imagen aparecerá en el listado y en el detalle. También se puede crear un artículo sin imagen.
+Para probar el flujo:
+
+1. Entrar en `/posts/crear/`.
+2. Crear un artículo con imagen JPG o PNG y estado **Publicado**.
+3. Confirmar que la imagen aparezca en el listado y el detalle.
+4. Editar el artículo y reemplazar la imagen.
+5. Crear también un artículo sin imagen para comprobar que el template no se rompa.
+6. Eliminar un artículo de prueba y verificar la confirmación previa y el mensaje final.
 
 ## Estructura relevante
 
@@ -94,10 +137,8 @@ posts/
 └── tests.py
 ```
 
-## Dependencias
+## Criterio de trabajo
 
-- Python 3.12 o superior.
-- Django 5.2.12.
-- Pillow 12.0.0.
+Los próximos avances se organizarán en commits pequeños y descriptivos, separados por responsabilidad: modelo y migraciones, formularios, vistas, templates, pruebas y documentación.
 
 `venv/`, `db.sqlite3`, `media/` y variables privadas están excluidos mediante `.gitignore`.
